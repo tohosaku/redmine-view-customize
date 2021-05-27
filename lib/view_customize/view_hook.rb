@@ -1,4 +1,5 @@
 require 'time'
+require 'yaml' if Setting.plugin_view_customize[:filesystem_mode] == "1"
 
 module RedmineViewCustomize
   class ViewHook < Redmine::Hook::ViewListener
@@ -51,7 +52,12 @@ module RedmineViewCustomize
       path = Redmine::CodesetUtil.replace_invalid_utf8(context[:request].path_info)
       project = context[:project].identifier if context[:project]
 
-      ViewCustomize.all.order(:id).select {|item| target_customize?(path, project, insertion_position, item)}
+      if Setting.plugin_view_customize[:filesystem_mode] == "1"
+        @workspace_path = File.join(Redmine::Plugin.find('view_customize').directory, 'workspace')
+        extract_cusomization_from_file(path, project, insertion_position)
+      else
+        ViewCustomize.all.order(:id).select {|item| target_customize?(path, project, insertion_position, item)}
+      end
     end
 
     def target_customize?(path, project, insertion_position, item)
@@ -66,6 +72,38 @@ module RedmineViewCustomize
         return false unless project.present?
         return false unless project =~ Regexp.new(item.project_pattern)
       end
+
+      return true
+    end
+
+    def extract_cusomization_from_file(path, project, insertion_position)
+      file_path = File.join(@workspace_path, 'view_customize.yml')
+      if File.exist? file_path
+        items = YAML.load_file(file_path)
+        items.select {|item| target_file_cusomize?(path, project, insertion_position, item) }
+             .map {|item|
+               code_path = File.join(@workspace_path, item['code'])
+               item['code'] = File.read(code_path)
+               ViewCustomize.new(item)
+             }
+      end
+    end
+
+    def target_file_cusomize?(path, project, insertion_position, item)
+      return false if item['is_enabled'] == false
+      return false unless item['insertion_position'] == insertion_position
+
+      if item.key? 'path_pattern'
+        return false unless path =~ Regexp.new(item['path_pattern'])
+      end
+
+      if item.key? 'project_pattern'
+        return false unless project.present?
+        return false unless project =~ Regexp.new(item['project_pattern'])
+      end
+
+      code_path = File.join(@workspace_path, item['code'])
+      return false unless File.exist? code_path
 
       return true
     end

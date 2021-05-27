@@ -145,6 +145,29 @@ APIアクセスキーは、個人設定画面のAPIアクセスキーの「表�
 
 APIアクセスキーの利用には、設定画面の「API」タブにて、「RESTによるWebサービスを有効にする」をONにしておく必要があります。
 
+### ファイルシステムモード
+
+カスタマイズの開発時など Javascript、CSS、HTML をデータベースではなくファイルシステムから読み込みたい場合には、設定画面で「ファイルシステムモード」をONにします。
+
+「ファイルシステムモード」をONにした上で、指定フォルダ(`plugins/view_customize/workspace`)に `view_customize.yml` および Javascript、CSS、HTML を保存することでカスタマイズが反映されます。
+
+`view_customize.yml` の書式は以下の通りです。
+
+```yaml
+-
+  path_pattern: /issues$ # パスの正規表現。省略時は全ての画面で使用
+  code: sample.js # 保存されている javascript のファイル名
+  is_enabled: true # 有効化するか? 省略時には true
+  insertion_position: html_head # カスタマイズの表示場所 html_head, html_bottom, issue_form, issue_show から選択
+  customize_type: javascript # javascript, css, html から選択
+  project_pattern: "" # プロジェクトの正規表現
+-
+  code: sample.css  # 保存されている css のファイル名
+  is_enabled: true
+  insertion_position: html_head
+  customize_type: css
+```
+
 ## 設定例
 
 * [onozaty/redmine\-view\-customize\-scripts: Script list for "Redmine View Customize Plugin"](https://github.com/onozaty/redmine-view-customize-scripts)

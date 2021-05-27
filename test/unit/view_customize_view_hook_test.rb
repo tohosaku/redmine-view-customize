@@ -151,4 +151,21 @@ HTML
 
   end
 
+  def test_filesystem_mode
+    Setting.plugin_view_customize[:filesystem_mode] = "1"
+    @hook.instance_vatiable_set("@workspace_path", '../filesystem_mode')
+    expected = <<HTML
+
+<!-- view customize id: -->
+<script type=\"text/javascript\">
+//<![CDATA[
+  console.log('Hello! Filesystem Mode!!')
+//]]>
+</script>
+HTML
+
+    html = @hook.view_layouts_base_body_bottom({:request => Request.new("/issues"), :project => @project_ecookbook})
+    assert_equal expected, html
+  end
+
 end

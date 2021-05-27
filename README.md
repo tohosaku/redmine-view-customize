@@ -150,6 +150,29 @@ If you want to created it automatically, set "Automatically create API access ke
 
 To use the API access key, "Enable REST web service" must be turned on in the "API" tab of the setting page.
 
+### File System Mode
+
+If you want to load Javascript, CSS, or HTML from the file system instead of the database, such as when developing customizations, turn on "File System Mode" in the settings screen.
+
+To reflect the customization on "File System Mode", put `view_customize.yml`, Javascript, CSS, and HTML in the specified folder (`plugins/view_customize/workspace`) 
+
+an example of `view_customize.yml`
+
+```yaml
+-
+  path_pattern: /issues$ # Regular expression for path. If omitted, used in all screens.
+  code: sample.js # The filename of the saved javascript
+  is_enabled: true # If omitted, true
+  insertion_position: html_head # Choose where to display your customization from html_head, html_bottom, issue_form, issue_show
+  customize_type: javascript # javascript, css, html
+  project_pattern: "" # Regular expression for project
+-
+  code: sample.css  # The filename of the saved stylesheet
+  is_enabled: true
+  insertion_position: html_head
+  customize_type: css
+```
+
 ## Examples
 
 * [onozaty/redmine\-view\-customize\-scripts: Script list for "Redmine View Customize Plugin"](https://github.com/onozaty/redmine-view-customize-scripts)

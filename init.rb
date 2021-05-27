@@ -13,7 +13,7 @@ Redmine::Plugin.register :view_customize do
     :html => { :class => 'icon icon-view_customize'},
     :if => Proc.new { User.current.admin? }
 
-  settings :default => { 'create_api_access_key' => '' }, :partial => 'settings/view_customize_settings'
+  settings :default => { 'create_api_access_key' => '', 'filesystem_mode' => '' }, :partial => 'settings/view_customize_settings'
 
   should_be_disabled false if Redmine::Plugin.installed?(:easy_extensions)
 end

@@ -25,3 +25,4 @@ en:
   text_project_pattern_info: "Project (identifier) pattern is specified with a regular expression. (ex. sample-proj-a|sample-proj-b)"
   text_project_pattern_match_info: "If the project pattern was set, the code will not be inserted if the current project do not match."
   option_create_api_access_key: "Automatically create API access key"
+  option_filesystem_mode: "Filesystem Mode"

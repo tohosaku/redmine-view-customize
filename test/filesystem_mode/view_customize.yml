@@ -1,0 +1,12 @@
+-
+  path_pattern: /issues$
+  code: sample.js
+  is_enabled: true
+  insertion_position: html_bottom
+  customize_type: javascript
+  project_pattern: ""
+-
+  code: sample.css
+  is_enabled: true
+  insertion_position: html_bottom
+  customize_type: css
