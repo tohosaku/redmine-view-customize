@@ -1,1 +1,6 @@
-gem 'activerecord-compatible_legacy_migration'
+# frozen_string_literal: true
+
+source "https://rubygems.org"
+
+# Specify your gem's dependencies in redmine-view-customize.gemspec
+gemspec
